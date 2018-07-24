@@ -16,7 +16,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return Admin::all();
+        $admins = Admin::all()->toArray();
+        return view('admin.dashboard',compact('admins'));
     }
 
     /**

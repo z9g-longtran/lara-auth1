@@ -37,7 +37,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:web-admin')->except('logout');
+        $this->middleware('guest:web-admin,web-sub-admin')->except('logout');
     }
 
     /**
@@ -71,4 +71,29 @@ class LoginController extends Controller
     {
         return Auth::guard('web-admin');
     }    
+
+    protected function redirectTo()
+    {
+        if( $this->guard()->check() && $this->guard()->user()->isAdmin() )
+            return route('admin.admin.index');
+        if( $this->guard()->check() && $this->guard()->user()->isAdminSub() )   
+            return route('home');
+        return route('home');    
+    }
+
+    // /**
+    //  * Send the response after the user was authenticated.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // protected function sendLoginResponse(Request $request)
+    // {
+    //     $request->session()->regenerate();
+
+    //     $this->clearLoginAttempts($request);
+
+    //     return $this->authenticated($request, $this->guard()->user())
+    //             ?: redirect()->intended($this->redirectPath());
+    // }
 }

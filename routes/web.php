@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin','as'=> 'admin.'], function () {
-    Route::resource('admin','AdminController')->middleware('auth:web-admin');
+    Route::resource('admin','AdminController')->middleware(['auth:web-admin','admin']);
     Auth::routes();
     
 });

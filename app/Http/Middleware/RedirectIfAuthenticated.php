@@ -17,11 +17,26 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            if ($guard === 'web-admin')
-                return redirect('admin/admin');
-            return redirect('/home');
+        // if (Auth::guard($guard)->check()) {
+        //     if ($guard === 'web-admin')
+        //         return redirect('admin/admin');
+        //     return redirect('/home');
+        // }
+
+        switch ($guard) {
+            case 'web-admin':
+                if (Auth::guard($guard)->check()) {
+                    return redirect()->route('admin.admin.index');
+                }
+                break;
+            default:
+                if (Auth::guard($guard)->check()) {
+                    return redirect('/home');
+                }
+                break;
         }
+
+
 
         return $next($request);
     }

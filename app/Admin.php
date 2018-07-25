@@ -16,15 +16,15 @@ class Admin extends Authenticatable
     protected $hidden = ['password', 'remember_token'];
 
     public function isAdmin() {
-        return $this->role === Admin::ADMIN;
+        return $this->role === self::ADMIN;
     }
 
     public function isAdminSub(){
-        return $this->role === Admin::ADMIN_SUB;
+        return $this->role === self::ADMIN_SUB;
     }
 
     public function getRole(){
-        return $this->role === Admin::ADMIN ? "Admin" : "Sub Admin";
+        return $this->role === self::ADMIN ? "Admin" : "Sub Admin";
         // return "admin";
     }
 }
